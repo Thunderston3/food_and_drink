@@ -1,5 +1,5 @@
-const FOURSQUARE_API_KEY = '0ZTY1MZ302GH4MX2PUAB52CPDGC401NGST04M3DX0TKCAKA3'; // Replace with your actual API key
-const GOOGLE_MAPS_API_KEY = 'AIzaSyBTvza_VUjwum7vAFlaqu8tbJEjgxqPS5Y';
+// Import configuration
+const config = require('./config');
 
 const express = require('express');
 const cors = require('cors');
@@ -7,7 +7,7 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 const app = express();
-const PORT = 3000;
+const PORT = config.PORT;
 
 // Enable CORS for all routes
 app.use(cors());
@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname)));
 async function callFoursquarePlacesSearch(url)  {
     const requestOptions = {
         headers: {
-            'Authorization': 'Bearer ' + FOURSQUARE_API_KEY,
+            'Authorization': 'Bearer ' + config.FOURSQUARE_API_KEY,
             'X-Places-Api-Version': '2025-06-17',
             'Accept': 'application/json'
         }
@@ -77,10 +77,10 @@ app.get('/api/geocode', async (req, res) => {
     }
     try {
         // Use Google Maps Geocoding API instead of Foursquare
-        if (!GOOGLE_MAPS_API_KEY) {
+        if (!config.GOOGLE_MAPS_API_KEY) {
             return res.status(500).json({ error: 'Google Maps API key not configured on server' });
         }
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(query)}&key=${GOOGLE_MAPS_API_KEY}`;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(query)}&key=${config.GOOGLE_MAPS_API_KEY}`;
         console.log('Geocode request URL (Google Maps):', url);
 
         let response;
