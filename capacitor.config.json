@@ -1,0 +1,5 @@
+{
+  "appId": "com.thunderstone.foodanddrink",
+  "appName": "Food & Drink Finder",
+  "webDir": "capacitor_build"
+}
